@@ -117,7 +117,7 @@ public class ProgramController {
             }
         }
 
-        model.addAttribute("m", "Hackathon, Details & Rewards Added Successfully!");
+        model.addAttribute("m", "Hackathon Added Successfully!");
         return "aDashboard"; 
     }
 
@@ -128,8 +128,8 @@ public class ProgramController {
 
 	@GetMapping("viewAllHackathon")
 	public String viewHackathons(
-	        @RequestParam String mode,
-	        @RequestParam String payment,
+			@RequestParam(value = "mode", required = false) String mode,
+			@RequestParam(value = "payment", required = false) String payment,
 	        Model model) {
 
 	    List<ProgramEntity> list;

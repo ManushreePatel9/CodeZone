@@ -76,7 +76,7 @@
             font-size: 0.9rem;
             display: flex;
             align-items: center;
-            gap: 0; /* Starts with 0 gap */
+            gap: 0;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
             position: relative;
@@ -136,10 +136,6 @@
             display: inline-block;
         }
 
-        .status-dot {
-            width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px;
-        }
-
         .status-pill {
             font-size: 0.65rem;
             padding: 6px 12px;
@@ -151,6 +147,7 @@
 
         .pill-live { color: #16a34a; border-color: #bbf7d0; background: #f0fdf4; }
         .pill-done { color: #2563eb; border-color: #bfdbfe; background: #eff6ff; }
+        .pill-upcoming { color: #64748b; border-color: #cbd5e1; background: #f1f5f9; }
 
         .date-info-box {
             display: flex; align-items: center; gap: 15px;
@@ -187,7 +184,8 @@
     List<ProgramRoundsEntity> allRounds = (List<ProgramRoundsEntity>) request.getAttribute("allRounds");
     
     Date today = new Date();
-    SimpleDateFormat sdf = new SimpleDateFormat("dd MMM, yyyy");
+    // Time format added here (hh:mm a for 12-hour with AM/PM)
+    SimpleDateFormat sdf = new SimpleDateFormat("dd MMM, yyyy | hh:mm a");
 %>
 
     <nav class="top-nav">
@@ -238,7 +236,7 @@
                         </a>
                     <% } else { %>
                         <div class="text-end text-white-50">
-                            <div class="small fw-800 text-uppercase tracking-wider" style="font-size: 0.65rem;">Results Date</div>
+                            <div class="small fw-800 text-uppercase tracking-wider" style="font-size: 0.65rem;">Results Published At</div>
                             <div class="text-white fw-bold"><%= (resultDate != null) ? sdf.format(resultDate) : "TBD" %></div>
                         </div>
                     <% } %>
@@ -313,6 +311,5 @@
             </div>
         <% } } %>
     </div>
-
 </body>
 </html>
