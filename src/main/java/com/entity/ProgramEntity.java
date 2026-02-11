@@ -24,7 +24,6 @@ public class ProgramEntity {
     private String status;
     private String pic;
     
-    // Pattern change kiya gaya hai 'T'HH:mm ke saath
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date startDate;
 
@@ -47,7 +46,6 @@ public class ProgramEntity {
     private Integer maxTeamSize;
     private Integer userId;
 
-    // Relationships
     @OneToOne(mappedBy = "program", cascade = CascadeType.ALL)
     private ProgramDetailsEntity details;
 

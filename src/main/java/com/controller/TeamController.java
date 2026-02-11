@@ -55,7 +55,6 @@ public class TeamController {
 	
 	@GetMapping("/makeTeam")
 	public String makeTeam(TeamEntity teamEntity ,Integer pid , HttpSession session , RedirectAttributes attributes) {
-		// check if user already enrolled in same hackathon as member or leader
 		UserEntity user = (UserEntity) session.getAttribute("user");
 		boolean isAlreadyEnrolled = teamRepo.isUserAlreadyInTeam(pid,user.getUserId());
 
@@ -76,59 +75,12 @@ public class TeamController {
 	}
 	
 	
-//	@GetMapping("/makeTeam")
-//	public String makeTeam(TeamEntity teamEntity, Integer pid, HttpSession session, RedirectAttributes attributes) {
-//	    UserEntity user = (UserEntity) session.getAttribute("user");
-//	    if (user == null) return "redirect:/login";
-//
-////	    boolean isAlreadyEnrolled = teamRepo.isUserAlreadyInTeam(pid, user.getUserId());
-////
-////	    if (isAlreadyEnrolled) {
-////	        attributes.addFlashAttribute("e", "You are already a part of a team in this Hackathon!");
-////	        return "redirect:/viewHackathon?pid=" + pid;
-////	    }
-//
-//	    // Team Setup
-//	    teamEntity.setMem1(user.getUserId());
-//	    teamEntity.setProgramId(pid);
-//	    teamEntity.setRegistered(false); // Initially registration pending
-//	    
-//	    TeamEntity curTeam = teamRepo.save(teamEntity);
-//	    
-//	    // Session mein teamId rakh rahe hain as requested
-//	    session.setAttribute("curTeamId", curTeam.getTeamId());
-//	    
-//	    // Leader ki purani pending requests delete karna
-//	    requestRepo.deletePendingRequestsByReceiverAndProgram(user.getUserId(), pid);
-//	    
-//	    attributes.addFlashAttribute("s", "Team created successfully! Now invite your friends.");
-//	    return "redirect:/viewHackathon?pid=" + pid;
-//	}
-////	@GetMapping("/updateTeamName")
-////	public String updateTeamName(@RequestParam Integer teamId, @RequestParam String tName , Model model) {
-////	    try {
-////	        Optional<TeamEntity> op = teamRepo.findById(teamId);
-////	        if (op.isPresent()) {
-////	            TeamEntity team = op.get();
-////	            team.setTeamName(tName);
-////	            teamRepo.save(team);
-////	            RedirectAttributes redirectAttributes.addFlashAttribute("m", "Team Name Updated Successfully!");	            
-////	            return "redirect:/viewHackathon?pid=" + team.getProgramId();
-////	        } else {
-////	            return "redirect:/viewHackathon?e=Team not found!";
-////	        }
-////	    } catch (Exception e) {
-////	        e.printStackTrace();
-////	        return "redirect:/dashboard?e=Error updating team name";
-////	    }
-////	}
-//
 //	
 	@GetMapping("/updateTeamName")
 	public String updateTeamName(
 	    @RequestParam Integer teamId, 
 	    @RequestParam String tName, 
-	    RedirectAttributes ra) { // 1. Yahan parameter add karna zaroori hai
+	    RedirectAttributes ra) { 
 
 	    try {
 	        Optional<TeamEntity> op = teamRepo.findById(teamId);
@@ -137,7 +89,6 @@ public class TeamController {
 	            team.setTeamName(tName);
 	            teamRepo.save(team);
 	            
-	            // 2. FlashAttribute redirect ke baad bhi data rakhta hai
 	            ra.addFlashAttribute("m", "Team Name Updated Successfully! 🎉");
 	            
 	            return "redirect:/viewHackathon?pid=" + team.getProgramId();

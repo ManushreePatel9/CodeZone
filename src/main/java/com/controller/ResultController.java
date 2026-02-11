@@ -73,7 +73,7 @@ public class ResultController {
 	                            Model model , HttpSession session) {
 	UserEntity curJudge = (UserEntity)	session.getAttribute("user");
 	    
-	    System.out.println("Fetching for Round No: " + roundNo + " | Program ID: " + programId);
+	    System.out.println("Fetching for Round No: " + roundNo + " & Program ID: " + programId);
 	    
 	    List<SubmissionEntity> submissionData = submissionRepo.findByRoundRoundNoAndRoundProgramProgramId(roundNo, programId);
 	    
@@ -114,51 +114,6 @@ public class ResultController {
 	    return "redirect:/viewHackathon?pid=" + programId;
 	}
 	
-//	@PostMapping("/saveMarks")
-//	@ResponseBody
-//	public String saveMarks(@RequestParam Integer submissionId,
-//	                        @RequestParam Integer teamId,
-//	                        @RequestParam Integer roundId,
-//	                        @RequestParam Integer marks,
-//	                        @RequestParam String feedback,
-//	                        HttpSession session) {
-//		System.out.println("team id : " + teamId);
-//		System.out.println("Round Id : " + roundId);
-//		System.out.println("Marks : " + marks);
-//		
-//		
-//	    try {
-//	        UserEntity currentUser = (UserEntity) session.getAttribute("user");
-//	        if (currentUser == null) return "SESSION_EXPIRED";
-//
-//	        Integer programId = roundRepo.findById(roundId).get().getProgram().getProgramId();
-//
-//	        Optional<RoundResultEntity> existingRecord = resultRepo
-//	                .findByTeams_TeamIdAndRounds_RoundIdAndRounds_Program_ProgramId(teamId, roundId, programId);
-//	        
-//	        RoundResultEntity result;
-//	
-//	            result = new RoundResultEntity();
-//	            result.setSubmission(submissionRepo.findById(submissionId).get());
-//	            result.setTeams(teamRepo.findById(teamId).get());
-//	            result.setRounds(roundRepo.findById(roundId).get());
-//	            result.setJudge(currentUser);
-//	        
-//
-//	        result.setMarks(marks);
-//	        result.setFeedback(feedback);
-//	        result.setStatus("EVALUATED");
-//
-//	        resultRepo.save(result);
-//	        
-//	        return "SUCCESS";
-//
-//	    } catch (Exception e) {
-//	        e.printStackTrace();
-//	        return "ERROR: " + e.getMessage();
-//	    }
-//	}
-//	
 
 	@PostMapping("/saveMarks")
 	@ResponseBody
@@ -171,14 +126,14 @@ public class ResultController {
 	    
 	    try {
 	        UserEntity currentUser = (UserEntity) session.getAttribute("user");
-	        if (currentUser == null) return "SESSION_EXPIRED";
+	        if (currentUser == null) return "";
 
-	        // Program ID nikaalna
-	        ProgramRoundsEntity round = roundRepo.findById(roundId)
-	                .orElseThrow(() -> new Exception("Round not found"));
+	        ProgramRoundsEntity round = roundRepo.findById(roundId).orElse(null);
+	        if (round == null) {
+	            return "ERROR: Round not found";
+	        }
 	        Integer programId = round.getProgram().getProgramId();
 
-	        // Check karna ki kya is Team, Round aur Program ke liye pehle se marks diye gaye hain?
 	        Optional<RoundResultEntity> existingRecord = resultRepo
 	                .findByTeams_TeamIdAndRounds_RoundIdAndRounds_Program_ProgramIdAndJudge_UserId(teamId, roundId, programId , currentUser.getUserId());
 	        
@@ -187,7 +142,6 @@ public class ResultController {
 	        if (existingRecord.isPresent()) {
 	            result = existingRecord.get();
 	        } else {
-	            // NEW SAVE LOGIC: Agar nahi mila toh naya banao
 	            result = new RoundResultEntity();
 	            result.setSubmission(submissionRepo.findById(submissionId).get());
 	            result.setTeams(teamRepo.findById(teamId).get());
@@ -195,7 +149,6 @@ public class ResultController {
 	            result.setJudge(currentUser);
 	        }
 
-	        // Common Fields (Dono case mein update honge)
 	        result.setMarks(marks);
 	        result.setFeedback(feedback);
 	        result.setStatus("EVALUATED");
@@ -219,67 +172,7 @@ public class ResultController {
 	    
 	    return "ViewScores";
 	}
-//	
-//	@GetMapping("winnerDisplay")
-//	public String winnerDisplay(@RequestParam Integer programId, Model model) {
-//	    
-//	    ProgramEntity program = programRepo.findById(programId).orElse(null);
-//	    Optional<ProgramRewardsEntity> op = rewardRepo.findById(programId);
-//	    if (program == null) return "redirect:/dashboard";
-//
-//	    List<Object[]> allResults = resultRepo.findFinalWinners(programId);
-//	    if(op.isPresent()) {
-//	    	ProgramRewardsEntity r = op.get();
-//	    	 Integer limit = r.getTopRankerLimit();
-//	    	    List<Object[]> winners = allResults.stream()
-//	    	                                       .limit(limit)
-//	    	                                       .collect(Collectors.toList());
-//
-//	    	    model.addAttribute("winners", winners);
-//	    	    model.addAttribute("pName", program.getProgramName());
-//	    }
-//	    
-//	   
-//	
-//	   
-//	    return "FinalWinners"; 
-//	}
-	
-	
-//	@GetMapping("winnerDisplay")
-//	public String winnerDisplay(@RequestParam Integer programId, Model model) {
-//	    
-//	    // 1. Program details lo
-//	    ProgramEntity program = programRepo.findById(programId).orElse(null);
-//	    if (program == null) return "redirect:/dashboard";
-//
-//	    // 2. Database se saare winners (Object[]) ki list lo
-//	    List<Object[]> allResults = resultRepo.findFinalWinners(programId);
-//	    
-//	    // 3. Limit find karo (Default 3 rakho agar reward table me entry na mile)
-//	    int limit = 3; 
-//	    // Yahan ensure karein ki rewardRepo me findByProgramProgramId wala method ho
-//	    Optional<ProgramRewardsEntity> op = rewardRepo.findByProgram_ProgramId(programId); 
-//	    if (op.isPresent()) {
-//	        limit = op.get().getTopRankerLimit();
-//	    }
-//
-//	    // 4. Easy Handling: Agar data limit se kam hai toh handle karo
-//	    // Hum sirf utne hi log uthayenge jitne available hain aur limit ke andar hain
-//	    List<Object[]> winners = new ArrayList<>();
-//	    if (allResults != null) {
-//	        int actualToDisplay = Math.min(allResults.size(), limit);
-//	        for (int i = 0; i < actualToDisplay; i++) {
-//	            winners.add(allResults.get(i));
-//	        }
-//	    }
-//
-//	    // 5. Data JSP ko bhejo
-//	    model.addAttribute("winners", winners);
-//	    model.addAttribute("pName", program.getProgramName());
-//	    
-//	    return "FinalWinners"; 
-//	}
+
 	
 	
 	@GetMapping("winnerDisplay")
@@ -289,14 +182,12 @@ public class ResultController {
 
 	    List<Object[]> allResults = resultRepo.findFinalWinners(programId);
 	    
-	    // Limit Logic
 	    int limit = 3; 
 	    Optional<ProgramRewardsEntity> op = rewardRepo.findByProgram_ProgramId(programId); 
 	    if (op.isPresent()) {
 	        limit = op.get().getTopRankerLimit();
 	    }
 
-	    // Winners Processing with Names
 	    List<Map<String, Object>> winnersList = new ArrayList<>();
 	    if (allResults != null) {
 	        int actualToDisplay = Math.min(allResults.size(), limit);
@@ -306,17 +197,15 @@ public class ResultController {
 	            winnerMap.put("teamName", data[0]);
 	            winnerMap.put("score", data[1]);
 
-	            // Member Names Fetching Logic
 	            List<String> memberNames = new ArrayList<>();
 	            for (int m = 2; m <= 6; m++) {
 	                if (data[m] != null) {
 	                    try {
-	                        // data[m] is the ID from your query
 	                        Integer userId = Integer.parseInt(data[m].toString());
 	                        userRepo.findById(userId).ifPresent(u -> 
 	                            memberNames.add(u.getFirstName() + " " + u.getLastName())
 	                        );
-	                    } catch (Exception e) { /* Skip if not a valid ID */ }
+	                    } catch (Exception e) {  }
 	                }
 	            }
 	            winnerMap.put("members", memberNames);

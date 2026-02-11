@@ -8,6 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.entity.ProgramRewardsEntity;
 
 public interface ProgramRewardsRepository extends JpaRepository<ProgramRewardsEntity, Integer>{
-//	List<ProgramRewardsEntity> findByProgram_ProgramId(Integer programId);
 	Optional<ProgramRewardsEntity> findByProgram_ProgramId(Integer programId);	
 }

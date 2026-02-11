@@ -168,7 +168,6 @@
             <%
                 List<Map<String, Object>> winners = (List<Map<String, Object>>) request.getAttribute("winners");
                 if(winners != null && !winners.isEmpty()) {
-                    // Logic: 2nd Place (Left), 1st Place (Center), 3rd Place (Right)
                     int[] posArray = {1, 0, 2}; 
                     for(int i : posArray) {
                         if(i < winners.size()) {
@@ -231,7 +230,6 @@
                 return Math.random() * (max - min) + min;
             }
 
-            // Continuous Crackers
             var interval = setInterval(function() {
                 var timeLeft = animationEnd - Date.now();
 
@@ -241,13 +239,11 @@
 
                 var particleCount = 50 * (timeLeft / duration);
                 
-                // Random bursts all over the screen
                 confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
                 confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
                 confetti(Object.assign({}, defaults, { particleCount, origin: { x: 0.5, y: 0.5 } }));
             }, 250);
 
-            // Initial Heavy Cannon Blast
             confetti({
                 particleCount: 200,
                 spread: 100,

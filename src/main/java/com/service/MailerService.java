@@ -127,7 +127,6 @@ public class MailerService {
     public void sendRemovalMail(String receiverEmail, String teamName, String programName) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
-            // true flag ka matlab hum HTML content aur images bhej sakte hain
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
             helper.setTo(receiverEmail);
@@ -206,7 +205,6 @@ public class MailerService {
             helper.setTo(receiverEmail);
             helper.setSubject("Special Invitation: Join " + senderName + " for " + programName + "! 🚀");
 
-            // Signup URL banayein (taaki ye formatted mein pass ho sake)
             String signupUrl = "http://localhost:9999/?email=" + receiverEmail;
 
             String htmlContent = """
@@ -285,7 +283,6 @@ public class MailerService {
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
             helper.setTo(receiverEmail);
-            // Subject line exciting honi chahiye
             helper.setSubject("🔥 Urgent: A spot just opened up in Team " + teamName + "!");
 
             String loginUrl = "http://localhost:9999/viewHackathon?pid=" + pid;

@@ -22,7 +22,6 @@ public interface RoundResultRepository extends JpaRepository<RoundResultEntity,I
            "WHERE r.rounds.program.programId = :pId " +
            "GROUP BY r.teams.teamId " +
            "ORDER BY totalScore DESC")
-//    List<Object[]> findFinalWinners(@Param("pId") Integer pId);
     Optional<RoundResultEntity> findByTeams_TeamIdAndRounds_RoundIdAndRounds_Program_ProgramIdAndJudge_UserId(
             Integer teamId, 
             Integer roundId, 

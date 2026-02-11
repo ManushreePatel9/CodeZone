@@ -113,11 +113,9 @@
     };
 
     document.addEventListener('DOMContentLoaded', function() {
-        // --- 1. Model / Request Attributes (Forward) ---
         let successMsg = "<%= (request.getAttribute("m") != null) ? request.getAttribute("m") : "" %>";
         let errorMsg = "<%= (request.getAttribute("e") != null) ? request.getAttribute("e") : "" %>";
 
-        // --- 2. URL Parameters (Redirect) ---
         const urlParams = new URLSearchParams(window.location.search);
         const msgParam = urlParams.get('msg');
 
@@ -129,7 +127,6 @@
             successMsg = "Team Registered successfully!";
         }
 
-        // --- 3. Execute Alerts ---
         if (successMsg.trim() !== "") Alert.success(successMsg);
         if (errorMsg.trim() !== "") Alert.error(errorMsg);
     });

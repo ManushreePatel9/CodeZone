@@ -108,7 +108,6 @@ String leaderName = "";
 boolean isLeader = false;
 boolean isRegistered = false;
 
-// Identify user's team
 if(teams != null && user != null) {
     for(TeamEntity teamRow : teams) {
         if(teamRow.getProgramId().equals(curProgramId)) {
@@ -194,7 +193,6 @@ int maxSize = (h.getMaxTeamSize() != null) ? h.getMaxTeamSize() : 5;
                 </div>
             <% } %>
 
-            <%-- Roadmap with Blinking Active Round --%>
             <% if(isRegistered) { %>
             <div class="info-section">
                 <h4 class="fw-bold mb-4"><i class="fa-solid fa-map text-primary me-2"></i>Roadmap</h4>
@@ -246,7 +244,6 @@ int maxSize = (h.getMaxTeamSize() != null) ? h.getMaxTeamSize() : 5;
             </div>
             <% } %>
 
-            <%-- Premium Rewards Section --%>
             <div class="info-section">
                 <h4 class="fw-bold mb-4"><i class="fa-solid fa-trophy text-warning me-2"></i>Prizes & Rewards</h4>
                 <div class="row">
@@ -272,7 +269,6 @@ int maxSize = (h.getMaxTeamSize() != null) ? h.getMaxTeamSize() : 5;
                 <p class="mt-3 text-muted small"><%= (h.getRewards()!=null)?h.getRewards().getRewardAndPrizeDesc():"" %></p>
             </div>
 
-            <%-- Overview Section --%>
             <div class="info-section">
                 <div class="row g-4 mb-4">
                     <div class="col-6 col-md-3">
@@ -376,7 +372,6 @@ int maxSize = (h.getMaxTeamSize() != null) ? h.getMaxTeamSize() : 5;
 </div>
 
 <script>
-// Timer Logic
 <% if(!isExpired && deadline != null && !isRegistered) { %>
 (function() {
     const dDate = new Date('<%= deadline %>').getTime();

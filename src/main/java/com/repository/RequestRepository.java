@@ -37,7 +37,6 @@ public interface RequestRepository extends JpaRepository<RequestEntity, Integer>
     int deletePendingRequestUnified(@Param("teamId") Integer teamId, 
                                     @Param("userId") Integer userId, 
                                     @Param("email") String email);
-    // delete request for same program after making team 
     @Modifying
     @Transactional
     @Query("DELETE FROM RequestEntity r WHERE r.receiver.userId = :uid AND r.team.programId = :pid AND r.status = 'pending'")

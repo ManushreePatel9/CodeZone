@@ -295,13 +295,11 @@
             const navLinks = document.querySelectorAll(".nav-pill-custom");
 
             navLinks.forEach(link => {
-                // Agar link ka href current URL mein maujood hai
                 if (currentUrl.includes(link.getAttribute("href"))) {
                     link.classList.add("active");
                 }
             });
             
-            // Fallback: Agar sirf Dashboard khula hai (root path)
             if (currentUrl.endsWith("participantDashboard") || currentUrl.endsWith("participantDashboard.jsp")) {
                 document.querySelector('a[href="participantDashboard"]').classList.add("active");
             }

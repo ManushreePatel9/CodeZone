@@ -62,7 +62,7 @@ public class RequestController {
 	@PostMapping("/sendMakeTeamRequestManual")
 	public String sendMakeTeamRequestManual(@RequestParam String email, 
 	        @RequestParam Integer pid, @RequestParam String firstName,
-	        @RequestParam(required = false) Integer teamId, // Parameter se lein
+	        @RequestParam Integer teamId, 
 	        HttpSession session) {
 	    
 	    UserEntity sender = (UserEntity) session.getAttribute("user");
@@ -85,7 +85,6 @@ public class RequestController {
 	    
 	    requestRepo.save(requestEntity);
 	    
-	    // Mail sending logic
 	    try {
 	        String senderFullName = sender.getFirstName() + " " + sender.getLastName();
 	        emailService.sendHackathonInvitation(email, senderFullName, program.getProgramName(), pid.toString());
@@ -100,7 +99,6 @@ public class RequestController {
 	@GetMapping("/viewHackathon?pid=")
 	public String m(Model model) {
 		model.addAttribute("msg", "requested");
-		System.out.println("Chhota View Hackathon");
 		return "HackathonDetails";
 	}
 
@@ -129,7 +127,6 @@ public class RequestController {
 	        ProgramEntity program = request.getProgram(); 
 	        
 	        
-	     // Check if user is already in ANY team for THIS program 
 	        if (teamRepo.isUserAlreadyInTeam(programId, user.getUserId())) {
 	            attributes.addFlashAttribute("e", "You are already enrolled for this Hackathon!");
 	            System.out.println("Already Enrolled in this hackathon");
@@ -234,8 +231,8 @@ UserEntity userEmail = userOp.get();
 	@GetMapping("/cancelRequest")
 	public String cancelRequest(@RequestParam Integer pid, 
 	                            @RequestParam Integer teamId, 
-	                            @RequestParam(required = false) Integer userId,
-	                            @RequestParam(required = false) String email, 
+	                            @RequestParam Integer userId,
+	                            @RequestParam String email, 
 	                            Model model) {
 	    try {
 	  
