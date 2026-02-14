@@ -16,22 +16,10 @@ public interface RoundResultRepository extends JpaRepository<RoundResultEntity,I
     
     @Query("SELECT r FROM RoundResultEntity r WHERE r.rounds.roundId = :rId")
     List<RoundResultEntity> findByRounds_RoundId(@Param("rId") Integer rId); 
-    
-//    @Query("SELECT r.teams.teamName, SUM(r.marks) as totalScore " +
-//           "FROM RoundResultEntity r " +
-//           "WHERE r.rounds.program.programId = :pId " +
-//           "GROUP BY r.teams.teamId " +
-//           "ORDER BY totalScore DESC")
-//    Optional<RoundResultEntity> findByTeams_TeamIdAndRounds_RoundIdAndRounds_Program_ProgramIdAndJudge_UserId(
-//            Integer teamId, 
-//            Integer roundId, 
-//            Integer programId, 
-//            Integer judgeId
-//    );
+
     @Query("SELECT t.teamName, SUM(r.marks), t.mem1, t.mem2 , t.mem3 , t.mem4 , t.mem5 FROM RoundResultEntity r JOIN r.teams t WHERE r.rounds.program.programId = :pId GROUP BY t.teamId ORDER BY SUM(r.marks) DESC")
     List<Object[]> findFinalWinners(@Param("pId") Integer pId);
     
- // Sahi waala method jisme @Param lage hain
     @Query("SELECT r FROM RoundResultEntity r WHERE r.teams.teamId = :tId " +
            "AND r.rounds.roundId = :rId " +
            "AND r.rounds.program.programId = :pId " +
