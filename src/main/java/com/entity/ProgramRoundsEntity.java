@@ -40,5 +40,9 @@ public class ProgramRoundsEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	Date resultDate;
 	String roundTask; 
-	
+	String criteria1; // e.g., "Idea / Innovation"
+	String criteria2; // e.g., "UI / UX Design"
+	String criteria3; // e.g., "Technical Implementation"
+	String criteria4; // e.g., "Presentation Skills"
+	String criteria5;
 }

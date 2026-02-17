@@ -17,9 +17,17 @@ public interface RoundResultRepository extends JpaRepository<RoundResultEntity,I
     @Query("SELECT r FROM RoundResultEntity r WHERE r.rounds.roundId = :rId")
     List<RoundResultEntity> findByRounds_RoundId(@Param("rId") Integer rId); 
 
-    @Query("SELECT t.teamName, SUM(r.marks), t.mem1, t.mem2 , t.mem3 , t.mem4 , t.mem5 FROM RoundResultEntity r JOIN r.teams t WHERE r.rounds.program.programId = :pId GROUP BY t.teamId ORDER BY SUM(r.marks) DESC")
-    List<Object[]> findFinalWinners(@Param("pId") Integer pId);
+//    @Query("SELECT t.teamName, SUM(r.marks), t.mem1, t.mem2 , t.mem3 , t.mem4 , t.mem5 FROM RoundResultEntity r JOIN r.teams t WHERE r.rounds.program.programId = :pId GROUP BY t.teamId ORDER BY SUM(r.totalMarks) DESC")
+//    List<Object[]> findFinalWinners(@Param("pId") Integer pId);
     
+    
+    @Query("SELECT t.teamName, SUM(r.totalMarks), t.mem1, t.mem2, t.mem3, t.mem4, t.mem5 " +
+            "FROM RoundResultEntity r JOIN r.teams t " +
+            "WHERE r.rounds.program.programId = :pId " +
+            "GROUP BY t.teamId, t.teamName, t.mem1, t.mem2, t.mem3, t.mem4, t.mem5 " +
+            "ORDER BY SUM(r.totalMarks) DESC")
+     List<Object[]> findFinalWinners(@Param("pId") Integer pId);
+     
     @Query("SELECT r FROM RoundResultEntity r WHERE r.teams.teamId = :tId " +
            "AND r.rounds.roundId = :rId " +
            "AND r.rounds.program.programId = :pId " +

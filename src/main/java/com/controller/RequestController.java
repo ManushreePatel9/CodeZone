@@ -217,8 +217,6 @@ UserEntity userEmail = userOp.get();
 	            
 	            for (RequestEntity req : pendingList) {
 	                String email = (req.getReceiver() != null) ? req.getReceiver().getEmail() : req.getReceiverEmail();
-	                
-	               
 	                emailService.sendSpotAvailableMail(email, row.getTeamName(), program.getProgramName(), pid);
 	            }
 	        }

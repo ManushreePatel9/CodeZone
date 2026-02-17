@@ -29,66 +29,101 @@
             color: var(--navy-dark); 
         }
 
-        /* --- NAVIGATION --- */
         .top-nav {
-            background: #ffffff;
-            border-bottom: 1px solid var(--border-color);
-            padding: 0.75rem 2.5rem;
-            position: sticky; top: 0; z-index: 1000;
+            background: #ffffff; border-bottom: 1px solid var(--border-color);
+            padding: 0.75rem 2.5rem; position: sticky; top: 0; z-index: 1000;
             margin-bottom: 2rem;
         }
 
         .brand-logo {
-            font-weight: 800; font-size: 1.3rem;
-            color: var(--navy-dark); text-decoration: none; display: flex; align-items: center; gap: 10px;
+            font-weight: 800; font-size: 1.3rem; color: var(--navy-dark); 
+            text-decoration: none; display: flex; align-items: center; gap: 10px;
         }
 
-        /* --- EVALUATION CARDS --- */
         .main-card { 
-            border-radius: 20px; 
-            border: 1px solid var(--border-color); 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03); 
-            margin-bottom: 1.5rem; 
-            background: #fff; 
-            border-left: 6px solid #e2e8f0; 
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            border-radius: 24px; border: 1px solid var(--border-color); 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02); margin-bottom: 1.5rem; 
+            background: #fff; border-left: 8px solid #cbd5e1; 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
         }
         
         .card-saved { border-left-color: var(--success) !important; background-color: #f0fdf4; }
-        .card-editing { border-left-color: var(--warning) !important; background-color: #fffbeb; transform: scale(1.01); box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
+        .card-editing { border-left-color: var(--warning) !important; background-color: #fffbeb; transform: translateY(-5px); box-shadow: 0 12px 30px rgba(0,0,0,0.08); }
         
-        .form-control { border-radius: 12px; border: 1.5px solid var(--border-color); padding: 10px 15px; font-size: 0.9rem; }
-        .form-control:focus { border-color: var(--brand-blue); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
-
-        /* Buttons */
-        .btn-action { padding: 12px; border-radius: 14px; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; border: none; transition: 0.3s; }
-        .btn-edit { background-color: var(--navy-dark); color: white; }
-        .btn-save { background-color: var(--success); color: white; }
-
-        .link-box {
-            background: #eff6ff;
-            border: 1px dashed var(--brand-blue);
+        /* Scoring Input Styling */
+        .score-input-pill {
+            background: #f1f5f9;
+            border: 2px solid transparent;
             border-radius: 12px;
-            padding: 12px;
-            text-align: center;
+            font-weight: 700;
+            color: var(--navy-dark);
+            height: 45px;
+            transition: all 0.2s;
+            font-size: 1.1rem;
+        }
+
+        .score-input-pill:focus {
+            background: #fff;
+            border-color: var(--brand-blue);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+            outline: none;
+        }
+
+        .score-input-pill:disabled {
+            background: rgba(0,0,0,0.03);
+            color: #94a3b8;
+            border-color: transparent;
+        }
+
+        .feedback-area {
+            border-radius: 12px;
+            border: 1.5px solid var(--border-color);
+            padding: 10px;
+            font-size: 0.85rem;
+            resize: none;
+            margin-top: 10px;
+        }
+
+        .btn-action { 
+            height: 50px;
+            border-radius: 15px; 
+            font-weight: 800; 
+            font-size: 0.9rem; 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px;
+            border: none; 
+            transition: 0.3s; 
+        }
+        
+        .btn-edit { background-color: var(--navy-dark); color: white; }
+        .btn-save { background-color: var(--success); color: white; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
+
+        .link-box .btn-review {
+            background: #eff6ff;
+            color: var(--brand-blue);
+            border: 2px solid #dbeafe;
+            border-radius: 12px;
+            font-weight: 700;
             transition: 0.3s;
         }
 
-        .link-box:hover { background: #dbeafe; }
-
-        .brief-box {
-            background: #f8fafc;
-            border-radius: 12px;
-            padding: 12px;
-            font-size: 0.82rem;
-            color: #475569;
-            border: 1px solid #f1f5f9;
-            height: 100%;
+        .link-box .btn-review:hover {
+            background: var(--brand-blue);
+            color: white;
         }
 
-        .profile-chip {
-            background: var(--navy-dark); color: white; padding: 8px 18px; border-radius: 50px; display: flex; align-items: center; gap: 12px;
+        .criteria-label { 
+            font-size: 0.6rem; 
+            font-weight: 800; 
+            color: #64748b; 
+            text-transform: uppercase; 
+            margin-bottom: 6px; 
+            display: block;
+            letter-spacing: 0.5px;
         }
+
+        .profile-chip { background: var(--navy-dark); color: white; padding: 8px 18px; border-radius: 50px; display: flex; align-items: center; gap: 12px; }
+
     </style>
 </head>
 <body>
@@ -105,17 +140,17 @@
                     <span class="small fw-bold">Hi, <%= ((UserEntity)session.getAttribute("user")).getFirstName() %></span>
                     <i class="fa-solid fa-circle-user text-primary"></i>
                 </div>
-                <a href="judgeDashboard" class="btn btn-light btn-sm rounded-pill px-3 fw-bold border">
-                    <i class="fa-solid fa-arrow-left me-1"></i> Dashboard
+                <a href="judgeDashboard" class="btn btn-light btn-sm rounded-pill px-4 fw-bold border">
+                    <i class="fa-solid fa-arrow-left me-1"></i> Back
                 </a>
             </div>
         </div>
     </nav>
 
     <div class="container pb-5">
-        <div class="mb-4">
+        <div class="mb-5">
             <h2 class="fw-800 text-navy-dark mb-1">Evaluation Panel</h2>
-            <p class="text-muted">Review team submissions, check their links, and assign scores.</p>
+            <p class="text-muted">Review team submissions and assign scores out of 10 for each criteria.</p>
         </div>
 
         <%
@@ -136,52 +171,58 @@
                     boolean isSaved = (myResult != null);
         %>
             <div class="card main-card p-4 <%= isSaved ? "card-saved" : "" %>" id="card-<%= s.getSubmissionId() %>">
-                <div class="row g-3 align-items-center">
+                <div class="row g-4 align-items-center">
                     
-                    <div class="col-md-2">
-                        <div class="text-primary small fw-800 text-uppercase mb-1">Team</div>
-                        <h5 class="fw-bold mb-1"><%= s.getTeam().getTeamName() %></h5>
-                        <span class="badge bg-light text-muted border rounded-pill">ID: <%= s.getSubmissionId() %></span>
+                    <div class="col-md-2 border-end">
+                        <div class="text-primary small fw-800 text-uppercase mb-1" style="font-size: 0.65rem;">Team Name</div>
+                        <h5 class="fw-bold mb-1 text-navy-dark"><%= s.getTeam().getTeamName() %></h5>
+                        <span class="badge bg-light text-muted border px-2">ID #<%= s.getSubmissionId() %></span>
                     </div>
 
                     <div class="col-md-3">
-                        <div class="brief-box">
-                            <strong class="text-dark d-block mb-1 small"><i class="fa-solid fa-info-circle me-1"></i> Project Brief</strong>
-                            <%= (s.getSubmissionDesc() != null) ? s.getSubmissionDesc() : "No description provided." %>
+                        <div class="mb-3">
+                            <p class="text-muted mb-0" style="font-size: 0.8rem; line-height: 1.4;">
+                                <%= (s.getSubmissionDesc() != null) ? s.getSubmissionDesc() : "No description provided." %>
+                            </p>
                         </div>
-                    </div>
-
-                    <div class="col-md-2">
-                        <div class="text-muted small fw-800 text-uppercase mb-2">Project Link</div>
                         <% if(s.getSubmissionLink() != null && !s.getSubmissionLink().isEmpty()) { %>
                             <div class="link-box">
-                                <p class="text-muted mb-2" style="font-size: 0.65rem;">Click to review work:</p>
-                                <a href="<%= s.getSubmissionLink() %>" target="_blank" class="btn btn-primary btn-sm w-100 rounded-pill fw-bold">
-                                    <i class="fa-solid fa-external-link me-1"></i> View Project
+                                <a href="<%= s.getSubmissionLink() %>" target="_blank" class="btn btn-review btn-sm w-100 py-2">
+                                    <i class="fa-solid fa-link me-1"></i> View Project
                                 </a>
-                            </div>
-                        <% } else { %>
-                            <div class="p-2 text-center border rounded-3 bg-light">
-                                <span class="text-muted small italic">No Link Provided</span>
                             </div>
                         <% } %>
                     </div>
 
-                    <div class="col-md-3">
-                        <div class="row g-2">
-                            <div class="col-12">
-                                <input type="number" id="marks-<%= s.getSubmissionId() %>" 
-                                       class="form-control eval-input-<%= s.getSubmissionId() %> shadow-sm" 
-                                       value="<%= isSaved ? myResult.getMarks() : "" %>" 
-                                       <%= isSaved ? "disabled" : "" %> placeholder="Score (0-50)">
-                            </div>
-                            <div class="col-12">
-                                <textarea id="feedback-<%= s.getSubmissionId() %>" 
-                                          class="form-control eval-input-<%= s.getSubmissionId() %> shadow-sm" 
-                                          rows="1" <%= isSaved ? "disabled" : "" %> 
-                                          placeholder="Judge Feedback..."><%= isSaved ? myResult.getFeedback() : "" %></textarea>
-                            </div>
+                    <div class="col-md-5">
+                        <div class="row g-2 mb-2">
+                            <% 
+                                ProgramRoundsEntity round = s.getRound();
+                                String[] labels = {
+                                    (round.getCriteria1() != null && !round.getCriteria1().isEmpty()) ? round.getCriteria1() : "Crit 1",
+                                    (round.getCriteria2() != null && !round.getCriteria2().isEmpty()) ? round.getCriteria2() : "Crit 2",
+                                    (round.getCriteria3() != null && !round.getCriteria3().isEmpty()) ? round.getCriteria3() : "Crit 3",
+                                    (round.getCriteria4() != null && !round.getCriteria4().isEmpty()) ? round.getCriteria4() : "Crit 4",
+                                    (round.getCriteria5() != null && !round.getCriteria5().isEmpty()) ? round.getCriteria5() : "Crit 5"
+                                };
+                                Integer[] marks = isSaved ? new Integer[]{myResult.getM1(), myResult.getM2(), myResult.getM3(), myResult.getM4(), myResult.getM5()} : new Integer[]{0,0,0,0,0};
+                                
+                                for(int i=0; i<5; i++) { 
+                            %>
+                                <div class="col">
+                                    <label class="criteria-label text-center text-truncate" title="<%= labels[i] %>"><%= labels[i] %></label>
+                                    <input type="number" id="c<%= (i+1) %>-<%= s.getSubmissionId() %>" 
+                                           class="form-control text-center score-input-pill eval-input-<%= s.getSubmissionId() %>" 
+                                           placeholder="0" min="0" max="10"
+                                           value="<%= isSaved ? (marks[i] != null ? marks[i] : "") : "" %>"
+                                           <%= isSaved ? "disabled" : "" %>>
+                                </div>
+                            <% } %>
                         </div>
+                        <textarea id="feedback-<%= s.getSubmissionId() %>" 
+                                  class="form-control feedback-area eval-input-<%= s.getSubmissionId() %>" 
+                                  rows="1" <%= isSaved ? "disabled" : "" %> 
+                                  placeholder="Add judge's feedback..."><%= isSaved ? myResult.getFeedback() : "" %></textarea>
                     </div>
 
                     <div class="col-md-2">
@@ -193,9 +234,9 @@
                                 class="btn-action w-100 shadow-sm <%= isSaved ? "btn-edit" : "btn-save" %>" 
                                 onclick="handleAction(<%= s.getSubmissionId() %>)">
                             <% if(isSaved) { %>
-                                <i class="fa-solid fa-pen-to-square me-1"></i>Edit
+                                <i class="fa-solid fa-pen-to-square me-2"></i>Edit
                             <% } else { %>
-                                <i class="fa-solid fa-floppy-disk me-1"></i>Save
+                                <i class="fa-solid fa-check-circle me-2"></i>Save
                             <% } %>
                         </button>
                     </div>
@@ -206,7 +247,7 @@
             } else {
         %>
             <div class="text-center py-5 bg-white rounded-4 shadow-sm border mt-4">
-                <i class="fa-solid fa-folder-open fa-3x text-muted mb-3 opacity-25"></i>
+                <i class="fa-solid fa-clipboard-question fa-3x text-muted mb-3 opacity-25"></i>
                 <h4 class="fw-bold text-muted">No submissions found.</h4>
             </div>
         <% } %>
@@ -220,13 +261,16 @@ function handleAction(id) {
     
     if (btn.text().includes("Edit")) {
         inputs.prop('disabled', false).first().focus();
-        btn.html("<i class='fa-solid fa-floppy-disk me-1'></i>Save").removeClass('btn-edit').addClass('btn-save');
+        btn.html("<i class='fa-solid fa-check-circle me-2'></i>Save").removeClass('btn-edit').addClass('btn-save');
         card.removeClass("card-saved").addClass("card-editing");
     } else {
-        var mrk = $("#marks-" + id).val();
-        if(!mrk || mrk < 0 || mrk > 50) { alert("Invalid Score!"); return; }
+        var m1 = $("#c1-" + id).val() || 0;
+        var m2 = $("#c2-" + id).val() || 0;
+        var m3 = $("#c3-" + id).val() || 0;
+        var m4 = $("#c4-" + id).val() || 0;
+        var m5 = $("#c5-" + id).val() || 0;
 
-        btn.prop('disabled', true).html("<i class='fa-solid fa-spinner fa-spin'></i>");
+        btn.prop('disabled', true).html("<i class='fa-solid fa-circle-notch fa-spin'></i>");
 
         $.ajax({
             url: 'saveMarks',
@@ -235,14 +279,16 @@ function handleAction(id) {
                 submissionId: $("#sid-" + id).val(),
                 teamId: $("#tid-" + id).val(),
                 roundId: $("#rid-" + id).val(),
-                marks: mrk,
+                m1: m1, m2: m2, m3: m3, m4: m4, m5: m5,
                 feedback: $("#feedback-" + id).val()
             },
             success: function(res) {
                 if(res.trim() === "SUCCESS") {
-                    inputs.prop('disabled', true);
-                    card.removeClass("card-editing").addClass("card-saved");
-                    btn.html("<i class='fa-solid fa-pen-to-square me-1'></i>Edit").removeClass('btn-save').addClass('btn-edit').prop('disabled', false);
+                    setTimeout(function(){
+                        inputs.prop('disabled', true);
+                        card.removeClass("card-editing").addClass("card-saved");
+                        btn.html("<i class='fa-solid fa-pen-to-square me-2'></i>Edit").removeClass('btn-save').addClass('btn-edit').prop('disabled', false);
+                    }, 500);
                 } else {
                     alert("Error: " + res);
                     btn.prop('disabled', false).html("Save");

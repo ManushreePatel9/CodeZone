@@ -120,13 +120,19 @@ public class ResultController {
 	public String saveMarks(@RequestParam Integer submissionId,
 	                        @RequestParam Integer teamId,
 	                        @RequestParam Integer roundId,
-	                        @RequestParam Integer marks,
+	                        @RequestParam Integer m1,@RequestParam Integer m2,@RequestParam Integer m3
+	                        ,@RequestParam Integer m4,@RequestParam Integer m5,
 	                        @RequestParam String feedback,
 	                        HttpSession session) {
 	    
 	    try {
 	        UserEntity currentUser = (UserEntity) session.getAttribute("user");
 	        if (currentUser == null) return "";
+System.out.println("M1 : " + m1);
+System.out.println("M2 : " + m2);
+System.out.println("M3 : " + m3);
+System.out.println("M4 : " + m4);
+System.out.println("M5 : " + m5);
 
 	        ProgramRoundsEntity round = roundRepo.findById(roundId).orElse(null);
 	        if (round == null) {
@@ -149,7 +155,18 @@ public class ResultController {
 	            result.setJudge(currentUser);
 	        }
 
-	        result.setMarks(marks);
+	        result.setM1(m1);
+	        result.setM2(m2);
+	        result.setM3(m3);
+	        result.setM4(m4);
+	        result.setM5(m5);
+	        int total = m1 + m2+m3+m4+m5;
+	        result.setTotalMarks(total);
+
+
+
+
+	        
 	        result.setFeedback(feedback);
 	        result.setStatus("EVALUATED");
 

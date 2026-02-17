@@ -36,7 +36,13 @@ public class RoundResultEntity {
 	@JoinColumn(name="judge_id")
 	UserEntity judge;
 	
-	Integer marks;
+	Integer m1; // Marks for criteria1
+    Integer m2; // Marks for criteria2
+    Integer m3; // Marks for criteria3
+    Integer m4; // Marks for criteria4
+    Integer m5; // Marks for criteria5
+	
+	Integer totalMarks;
 	String feedback;
 	String status;
 }
